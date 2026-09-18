@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Tokens de marca de REPAR.ar.
+   En Tailwind 4 el tema se define acá con @theme, no en
+   tailwind.config.ts. Cada token genera utilidades:
+   --color-naranja  ->  bg-naranja, text-naranja, border-naranja
+   --font-display   ->  font-display
+   Colores sacados del logo y del flyer del cliente.
+   ============================================================ */
+@theme {
+  --color-naranja: #fd4e01;
+  --color-naranja-osc: #d33f00;
+  --color-verde: #66a621;
+  --color-negro: #000000;
+  --color-hueso: #f9f3ea;
+  --color-papel: #ffffff;
+  --color-tinta: #171310;
+  --color-tinta-suave: #5e554c;
+  --color-wsp: #1faf54;
+
+  --font-texto: var(--fuente-texto), system-ui, sans-serif;
+  --font-display: var(--fuente-display), "Arial Narrow", system-ui, sans-serif;
+  --font-marca: var(--fuente-marca), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* deja aire arriba al saltar a un ancla, por la barra sticky */
+  scroll-padding-top: 4.5rem;
+}
+
+body {
+  line-height: 1.6;
+}
+
+/* Foco visible con el naranja de la marca, para navegación por teclado */
+:focus-visible {
+  outline: 3px solid var(--color-naranja);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
