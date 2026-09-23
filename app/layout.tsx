@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Alfa_Slab_One, Barlow, Barlow_Condensed } from "next/font/google";
 import { site } from "@/lib/site";
+import Splash, { PIEZAS } from "@/components/Splash";
 import "./globals.css";
 
 /**
@@ -68,8 +69,37 @@ export default function RootLayout({
     <html
       lang="es-AR"
       className={`${texto.variable} ${display.variable} ${marca.variable}`}
+      // El script de abajo agrega la clase "js" antes de hidratar
+      suppressHydrationWarning
     >
+      <head>
+        {/* Las piezas de la pantalla de carga son lo primero que se ve:
+            que empiecen a bajar antes que cualquier otra imagen. */}
+        {PIEZAS.map((pieza) => (
+          <link
+            key={pieza}
+            rel="preload"
+            as="image"
+            href={`/splash/${pieza}.webp`}
+            type="image/webp"
+          />
+        ))}
+        {/* Marca que hay JS antes del primer pintado: sin esto, el contenido
+            animado quedaría invisible para quien navega sin JavaScript.
+            De paso marca si la pantalla de carga ya se mostró en esta
+            pestaña, así no se repite en cada navegación. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');" +
+              "try{if(sessionStorage.getItem('splash'))" +
+              "document.documentElement.classList.add('sin-splash');" +
+              "else sessionStorage.setItem('splash','1')}catch(e){}",
+          }}
+        />
+      </head>
       <body className="bg-hueso text-tinta font-texto antialiased">
+        <Splash />
         {children}
       </body>
     </html>

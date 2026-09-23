@@ -52,3 +52,156 @@ body {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   Animación de entrada al hacer scroll.
+   Cualquier elemento con `data-revelar` arranca invisible y
+   corrido 24px hacia abajo; <AnimacionesScroll> le agrega la
+   clase .visible cuando entra en pantalla y sube a su lugar.
+   `--retraso` permite escalonar (ej: una card después de otra).
+   Solo se oculta si hay JS (.js en <html>) y si el usuario no
+   pidió reducir movimiento en su sistema.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-revelar] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--retraso, 0ms);
+  }
+  .js [data-revelar].visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Fondo de engranajes y circuitos (<FondoMecanico>).
+   --y es el scroll en px, lo escribe el componente.
+   Los engranajes giran --giro grados por px scrolleado; los
+   pulsos de luz corren por las pistas a la par del scroll y
+   brillan más mientras se scrollea ([data-activo]).
+   ============================================================ */
+.fondo-mecanico {
+  --trazo: var(--color-naranja);
+}
+.fondo-mecanico .engranaje {
+  fill: none;
+  stroke: var(--trazo);
+  stroke-width: 2;
+  opacity: 0.13;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(calc(var(--y, 0) * var(--giro) * 1deg));
+}
+.fondo-mecanico .pista {
+  fill: none;
+  stroke: var(--trazo);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.1;
+}
+.fondo-mecanico .pista-luz {
+  fill: none;
+  stroke: var(--trazo);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 90 910;
+  stroke-dashoffset: calc((var(--desfase) - var(--y, 0) * 0.6) * 1px);
+  opacity: 0.18;
+  transition: opacity 0.4s ease;
+}
+.fondo-mecanico .pad {
+  fill: none;
+  stroke: var(--trazo);
+  stroke-width: 2;
+  opacity: 0.14;
+  transition:
+    opacity 0.4s ease,
+    fill 0.4s ease;
+}
+.fondo-mecanico[data-activo] .pista-luz {
+  opacity: 0.55;
+}
+.fondo-mecanico[data-activo] .pad {
+  fill: var(--trazo);
+  opacity: 0.35;
+}
+
+/* ============================================================
+   Pantalla de carga (<Splash>). El logo se arma pieza por pieza
+   y termina con el nombre.
+   Se va sola con una animación: no espera a ningún JavaScript,
+   así que no puede quedarse tapando la página. El script del
+   <head> le pone .sin-splash al <html> cuando ya se mostró una
+   vez en esta pestaña, para no repetirla en cada navegación.
+   ============================================================ */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  background: var(--color-negro);
+  animation: splash-salir 0.45s ease 2.05s forwards;
+}
+
+.splash__logo {
+  position: relative;
+  width: min(230px, 62vw);
+  /* el mismo alto/ancho que tienen las piezas */
+  aspect-ratio: 300 / 296;
+}
+
+/* Cada pieza es el lienzo entero del logo con una sola parte visible:
+   apiladas encajan solas, sin tener que posicionar nada. */
+.splash__pieza {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0;
+  animation: splash-pieza 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.splash__pieza--1 { animation-delay: 0s; }
+.splash__pieza--2 { animation-delay: 0.22s; }
+.splash__pieza--3 { animation-delay: 0.4s; }
+.splash__pieza--4 { animation-delay: 0.58s; }
+.splash__pieza--5 { animation-delay: 0.76s; }
+.splash__pieza--6 { animation-delay: 0.98s; }
+
+@keyframes splash-pieza {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes splash-salir {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Ya se vio en esta pestaña */
+.sin-splash .splash {
+  display: none;
+}
+
+/* Con movimiento reducido no hay pantalla de carga: la regla global de
+   arriba deja las animaciones en 0.01ms y quedaría un parpadeo negro. */
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    display: none;
+  }
+}

@@ -80,40 +80,77 @@ export type Trabajo = {
   titulo: string;
   detalle: string;
   alt: string;
+  /** Slug de la landing del servicio al que corresponde el trabajo. */
+  servicio: string;
 };
 
 export const trabajos: Trabajo[] = [
   {
     src: "/trabajos/aire.webp",
     titulo: "Split Philco",
-    detalle: "Instalación completa, carga de gas con manómetros y medición de la placa.",
+    detalle:
+      "Instalación de split frío/calor: vacío y carga de gas controlada con manifold, y medición de la placa electrónica con multímetro.",
     alt: "Split Philco instalado, unidad exterior con manómetros durante la carga de gas y placa electrónica medida con tester.",
+    servicio: "aire-acondicionado",
   },
   {
     src: "/trabajos/lavarropas.webp",
     titulo: "Samsung EcoBubble",
     detalle:
-      "Tina abierta para cambiar rodamientos y retén, la falla típica del ruido al centrifugar.",
+      "Desarme del frente y apertura de la cuba para cambiar rodamientos y retén, la causa típica del ruido al centrifugar.",
     alt: "Lavarropas Samsung EcoBubble de carga frontal, frente desarmado con el conjunto de tina y tambor, y tina abierta al medio.",
+    servicio: "lavarropas",
   },
   {
     src: "/trabajos/heladera.webp",
     titulo: "Heladera Gafa",
-    detalle: "Service del sistema de frío: compresor, condensador y carga de gas.",
+    detalle:
+      "Service del circuito de refrigeración: compresor, condensador y filtro deshidratador, con carga de gas controlada con manifold.",
     alt: "Heladera Gafa cerrada, su interior limpio y el sector del compresor con las mangueras de carga conectadas.",
+    servicio: "heladeras",
   },
   {
     src: "/trabajos/microondas.webp",
     titulo: "BGH Quick Chef",
-    detalle: "Membrana de teclado nueva y revisión del magnetrón y la alta tensión.",
+    detalle:
+      "Cambio de la membrana del teclado y control del magnetrón y del circuito de alta tensión.",
     alt: "Microondas BGH Quick Chef con membrana de teclado nueva, panel frontal desarmado y magnetrón a la vista.",
+    servicio: "microondas",
   },
   {
     src: "/trabajos/tv.webp",
     titulo: "Smart TV",
-    detalle: "Recambio de tiras de LED, prueba de backlight y equipo entregado andando.",
+    detalle:
+      "Recambio de las tiras de LED de la retroiluminación (backlight), prueba con el panel abierto y equipo entregado funcionando.",
     alt: "Panel de un televisor apoyado con las tiras de LED al descubierto, prueba de backlight encendido y el televisor ya funcionando.",
+    servicio: "tv",
   },
+];
+
+/**
+ * Los tres números que se muestran en las landings de servicio.
+ * `valor` es lo que se cuenta desde 0; prefijo y sufijo van pegados al número.
+ */
+export type Numero = {
+  valor: number;
+  prefijo?: string;
+  sufijo?: string;
+  etiqueta: string;
+};
+
+/**
+ * Separador de miles a mano (10000 -> "10.000"). No usamos toLocaleString
+ * porque el server y el navegador pueden formatear distinto y eso rompe la
+ * hidratación.
+ */
+export function formatearNumero(n: number): string {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export const numeros: Numero[] = [
+  { prefijo: "+", valor: 10000, etiqueta: "reparaciones" },
+  { valor: 95, sufijo: "%", etiqueta: "satisfacción" },
+  { prefijo: "+", valor: 25, etiqueta: "años en el rubro" },
 ];
 
 export const pasos = [
@@ -160,7 +197,7 @@ export const condiciones = [
   {
     titulo: "Garantía",
     detalle:
-      "De 3 a 6 meses sobre la reparación efectuada. El plazo depende del electrodoméstico y del tipo de intervención que se haya hecho.",
+      "De 3 a 6 meses sobre la reparación efectuada. El plazo depende del electrodoméstico y del tipo de intervención que se haya realizado.",
   },
 ];
 

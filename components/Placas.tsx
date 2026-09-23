@@ -6,7 +6,7 @@ import BotonWhatsApp from "./BotonWhatsApp";
  */
 export default function Placas() {
   return (
-    <div className="mt-4 bg-negro text-[#F5F0E8] rounded-[14px] px-5 py-[26px] grid gap-[14px] min-[820px]:grid-cols-[1fr_auto] min-[820px]:items-center">
+    <div data-revelar className="mt-4 bg-negro text-[#F5F0E8] rounded-[14px] px-5 py-[26px] grid gap-[14px] min-[820px]:grid-cols-[1fr_auto] min-[820px]:items-center">
       <div className="min-[820px]:col-start-1">
         <h3 className="text-naranja font-display font-extrabold text-[clamp(26px,6vw,36px)] leading-none m-0">
           También reparamos la placa, no solo la cambiamos

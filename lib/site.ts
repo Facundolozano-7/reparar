@@ -18,11 +18,13 @@ export const site = {
     {
       calle: "Emilio Pettoruti 2653",
       barrio: "B° Tablada Park",
+      horario: "Turno a coordinar",
       maps: "https://www.google.com/maps/search/?api=1&query=Emilio+Pettoruti+2653%2C+C%C3%B3rdoba%2C+Argentina",
     },
     {
       calle: "Gilardo Gilardi 1493",
       barrio: "B° Los Naranjos",
+      horario: "Lunes a viernes de 10 a 18 hs",
       maps: "https://www.google.com/maps/search/?api=1&query=Gilardo+Gilardi+1493%2C+C%C3%B3rdoba%2C+Argentina",
     },
   ],
@@ -35,4 +37,13 @@ export const site = {
  */
 export function wa(mensaje: string): string {
   return `https://wa.me/${site.telefono}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/**
+ * Mapa para meter en un <iframe>, armado solo con la dirección.
+ * No necesita API key (a diferencia de la Maps Embed API oficial).
+ */
+export function mapaEmbed(calle: string): string {
+  const q = encodeURIComponent(`${calle}, Córdoba, Argentina`);
+  return `https://maps.google.com/maps?q=${q}&z=16&output=embed`;
 }

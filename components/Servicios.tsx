@@ -6,18 +6,20 @@ export default function Servicios() {
   return (
     <section id="servicios" className="py-16">
       <div className="w-full max-w-[1120px] mx-auto px-5">
-        <h2 className="font-display font-extrabold text-[clamp(30px,7vw,46px)] leading-[1.02] tracking-[-.01em] m-0 mb-[10px]">
+        <h2 data-revelar className="font-display font-extrabold text-[clamp(30px,7vw,46px)] leading-[1.02] tracking-[-.01em] m-0 mb-[10px]">
           Qué reparamos
         </h2>
-        <p className="m-0 mb-8 max-w-[60ch] text-tinta-suave text-[17px]">
+        <p data-revelar className="m-0 mb-8 max-w-[60ch] text-tinta-suave text-[17px]">
           Cinco rubros, un mismo criterio: primero se diagnostica la falla real y
           recién después se cambia algo. Elegí el tuyo y contanos qué le pasa.
         </p>
 
         <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
-          {servicios.map((s) => (
+          {servicios.map((s, i) => (
             <article
               key={s.slug}
+              data-revelar
+              style={{ "--retraso": `${i * 90}ms` } as React.CSSProperties}
               className="bg-papel border border-[rgba(23,19,16,.14)] border-l-[6px] border-l-naranja
                          rounded-[14px] px-[18px] py-5 flex flex-col gap-3
                          shadow-[0_2px_0_rgba(23,19,16,.08)]"
