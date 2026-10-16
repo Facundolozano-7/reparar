@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Alfa_Slab_One, Barlow, Barlow_Condensed } from "next/font/google";
 import { site } from "@/lib/site";
 import Splash, { PIEZAS } from "@/components/Splash";
+import ConversionWhatsApp from "@/components/ConversionWhatsApp";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 /**
@@ -31,8 +33,8 @@ const marca = Alfa_Slab_One({
 });
 
 export const metadata: Metadata = {
-  // Cambiar por el dominio final cuando esté: hace absolutas las URLs de OG.
-  metadataBase: new URL("https://repar-ar.vercel.app"),
+  // Dominio del sitio: hace absolutas las URLs de OG y la canónica.
+  metadataBase: new URL("https://www.repararservice.com"),
   title: {
     default: `${site.nombre} — ${site.rubro} en Córdoba`,
     template: `%s | ${site.nombre}`,
@@ -101,6 +103,8 @@ export default function RootLayout({
       <body className="bg-hueso text-tinta font-texto antialiased">
         <Splash />
         {children}
+        <ConversionWhatsApp />
+        <Analytics />
       </body>
     </html>
   );
